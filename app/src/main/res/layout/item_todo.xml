@@ -2,16 +2,24 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="todo"
+            type="com.kobaken0029.kotodo.model.Todo" />
+    </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/todo"
+            android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:text="@{todo.content}"
             android:textAppearance="?android:attr/textAppearanceLarge"
             tools:text="title" />
 
@@ -19,8 +27,9 @@
             android:id="@+id/done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/todo"
+            android:layout_alignBaseline="@id/content"
             android:layout_alignParentEnd="true"
+            android:onClickListener="@{() -> todo.delete()}"
             android:text="@string/done" />
     </RelativeLayout>
 </layout>

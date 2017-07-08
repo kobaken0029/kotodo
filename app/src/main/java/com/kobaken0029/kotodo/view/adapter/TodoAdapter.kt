@@ -9,11 +9,13 @@ import android.widget.ArrayAdapter
 import com.kobaken0029.kotodo.R
 import com.kobaken0029.kotodo.databinding.ItemTodoBinding
 import com.kobaken0029.kotodo.model.Todo
+import com.kobaken0029.kotodo.view.TodoHandler
 
-class TodoAdapter(context: Context, items: List<Todo>)
+class TodoAdapter(context: Context, todoHandler: TodoHandler, items: List<Todo>)
     : ArrayAdapter<Todo>(context, R.layout.item_todo, items) {
 
     val ctx = context
+    val handler = todoHandler
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         return convertView?.apply {
@@ -28,5 +30,6 @@ class TodoAdapter(context: Context, items: List<Todo>)
 
     private fun bindTodo(binding: ItemTodoBinding, todo: Todo) {
         binding.todo = todo
+        binding.handler = handler
     }
 }

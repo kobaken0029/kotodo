@@ -4,8 +4,8 @@
     <data>
 
         <variable
-            name="todo"
-            type="com.kobaken0029.kotodo.model.Todo" />
+            name="handler"
+            type="com.kobaken0029.kotodo.view.MainViewHandler" />
     </data>
 
     <RelativeLayout
@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:onClickListener="@{() -> todo.create()}"
+                android:onClickListener="@{() -> handler.createTodo()}"
                 android:text="@string/add" />
 
             <EditText

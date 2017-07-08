@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "855720831523",
+    "firebase_url": "https://kotodo-646c3.firebaseio.com",
+    "project_id": "kotodo-646c3",
+    "storage_bucket": "kotodo-646c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855720831523:android:40cf32f2e8e0b11d",
+        "android_client_info": {
+          "package_name": "com.kobaken0029.kotodo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "855720831523-lucc1d5qvnm10drkopppt570n7itso6a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kobaken0029.kotodo",
+            "certificate_hash": "9df4f796812b6f31afccc7a7a3c9b831f683bd05"
+          }
+        },
+        {
+          "client_id": "855720831523-ljhq2cit2btdbmkr71ichijmpk5hj6ts.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBa60vNlS2brsZTAAhE58SS8nqSIzCpJDI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "855720831523-ljhq2cit2btdbmkr71ichijmpk5hj6ts.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

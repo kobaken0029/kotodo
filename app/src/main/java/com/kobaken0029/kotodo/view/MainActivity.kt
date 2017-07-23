@@ -5,6 +5,7 @@ import android.content.Context
 import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS
@@ -30,7 +31,9 @@ class MainActivity : AppCompatActivity(), MainViewHandler {
 
         inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        firebaseReference = FirebaseDatabase.getInstance().reference.child("messages")
+        val database = FirebaseDatabase.getInstance()
+        database.setPersistenceEnabled(true)
+        firebaseReference = database.reference.child("messages")
 
         adapter = TodoAdapter(this, this, firebaseReference)
         binding.todoList.adapter = adapter

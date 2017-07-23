@@ -5,7 +5,6 @@ import android.content.Context
 import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS
@@ -65,6 +64,7 @@ class MainActivity : AppCompatActivity(), MainViewHandler {
                 ?.setMessage("本当に削除しても良いですか？")
                 ?.setPositiveButton(android.R.string.ok, { dialog, _ ->
                     adapter.remove(key)
+                    Toast.makeText(applicationContext, "削除しました", Toast.LENGTH_SHORT).show()
                     dialog.dismiss()
                 })
                 ?.setNeutralButton(android.R.string.cancel, { dialog, _ ->

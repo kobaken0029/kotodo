@@ -1,35 +1,46 @@
 package com.kobaken0029.kotodo.view.adapter
 
-import android.content.Context
-import android.databinding.DataBindingUtil
-import android.view.LayoutInflater
+import android.app.Activity
+import android.graphics.Color
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import android.widget.CheckBox
+import android.widget.TextView
+import com.firebase.ui.database.FirebaseListAdapter
+import com.google.firebase.database.DatabaseReference
 import com.kobaken0029.kotodo.R
-import com.kobaken0029.kotodo.databinding.ItemTodoBinding
 import com.kobaken0029.kotodo.model.Todo
-import com.kobaken0029.kotodo.view.TodoHandler
+import com.kobaken0029.kotodo.util.DateUtil.now
 
-class TodoAdapter(context: Context, todoHandler: TodoHandler, items: List<Todo>)
-    : ArrayAdapter<Todo>(context, R.layout.item_todo, items) {
+class TodoAdapter(context: Activity, val reference: DatabaseReference)
+    : FirebaseListAdapter<Todo>(context, Todo::class.java, R.layout.item_todo, reference) {
 
-    val ctx = context
-    val handler = todoHandler
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        return convertView?.apply {
-            val binding = DataBindingUtil.getBinding<ItemTodoBinding>(this)
-            bindTodo(binding, getItem(position))
-        } ?: let {
-            val binding = ItemTodoBinding.inflate(LayoutInflater.from(ctx), parent, false)
-            bindTodo(binding, getItem(position))
-            return binding.root
+    override fun populateView(v: View, todo: Todo, position: Int) {
+        val contentView = v.findViewById(R.id.content) as TextView
+        contentView.text = todo.content
+        val updatedAtView = v.findViewById(R.id.updated_at) as TextView
+        updatedAtView.text = todo.updatedAt
+        with(v.findViewById(R.id.done) as CheckBox) {
+            isChecked = todo.done
+            setOnClickListener { done(todo, getRef(position).key) }
+        }
+        with(v) {
+            setBackgroundColor(if (todo.done) Color.LTGRAY else Color.WHITE)
+            setOnLongClickListener { remove(getRef(position).key) }
         }
     }
 
-    private fun bindTodo(binding: ItemTodoBinding, todo: Todo) {
-        binding.todo = todo
-        binding.handler = handler
+    fun add(todo: Todo) {
+        reference.push().setValue(todo)
+    }
+
+    fun done(todo: Todo, targetKey: String) {
+        val target = reference.child(targetKey)
+        target.child("done").setValue(!todo.done)
+        target.child("updatedAt").setValue(now())
+    }
+
+    fun remove(targetKey: String): Boolean {
+        reference.child(targetKey).removeValue()
+        return true
     }
 }

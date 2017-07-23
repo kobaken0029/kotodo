@@ -1,39 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
 
-        <variable
-            name="todo"
-            type="com.kobaken0029.kotodo.model.Todo" />
-
-        <variable
-            name="handler"
-            type="com.kobaken0029.kotodo.view.TodoHandler" />
-    </data>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <CheckBox
+        android:id="@+id/done"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_centerVertical="true" />
+
+    <LinearLayout
+        android:id="@+id/todo_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/done"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@{todo.content}"
             android:textAppearance="?android:attr/textAppearanceLarge"
             tools:text="title" />
 
-        <Button
-            android:id="@+id/done"
+        <TextView
+            android:id="@+id/updated_at"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/content"
-            android:layout_alignParentEnd="true"
-            android:onClickListener="@{() -> handler.deleteTodo(todo)}"
-            android:text="@string/done" />
-    </RelativeLayout>
-</layout>
+            tools:text="yyyy/mm/dd" />
+    </LinearLayout>
+</RelativeLayout>

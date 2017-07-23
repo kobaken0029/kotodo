@@ -1,5 +1,6 @@
 package com.kobaken0029.kotodo.view
 
+import android.app.AlertDialog
 import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity(), MainViewHandler {
 
         firebaseReference = FirebaseDatabase.getInstance().reference.child("messages")
 
-        adapter = TodoAdapter(this, firebaseReference)
+        adapter = TodoAdapter(this, this, firebaseReference)
         binding.todoList.adapter = adapter
 
         binding.handler = this
@@ -40,5 +41,21 @@ class MainActivity : AppCompatActivity(), MainViewHandler {
         } else {
             Toast.makeText(applicationContext, "入力してください", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun deleteTodo(key: String): Boolean {
+        AlertDialog.Builder(this).setCancelable(true)
+                ?.setTitle("削除")
+                ?.setMessage("本当に削除しても良いですか？")
+                ?.setPositiveButton(android.R.string.ok, { dialog, _ ->
+                    adapter.remove(key)
+                    dialog.dismiss()
+                })
+                ?.setNeutralButton(android.R.string.cancel, { dialog, _ ->
+                    dialog.dismiss()
+                })
+                ?.create()
+                ?.show()
+        return true
     }
 }

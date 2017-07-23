@@ -10,8 +10,9 @@ import com.google.firebase.database.DatabaseReference
 import com.kobaken0029.kotodo.R
 import com.kobaken0029.kotodo.model.Todo
 import com.kobaken0029.kotodo.util.DateUtil.now
+import com.kobaken0029.kotodo.view.MainViewHandler
 
-class TodoAdapter(context: Activity, val reference: DatabaseReference)
+class TodoAdapter(context: Activity, val viewHandler: MainViewHandler, val reference: DatabaseReference)
     : FirebaseListAdapter<Todo>(context, Todo::class.java, R.layout.item_todo, reference) {
 
     override fun populateView(v: View, todo: Todo, position: Int) {
@@ -25,7 +26,7 @@ class TodoAdapter(context: Activity, val reference: DatabaseReference)
         }
         with(v) {
             setBackgroundColor(if (todo.done) Color.LTGRAY else Color.WHITE)
-            setOnLongClickListener { remove(getRef(position).key) }
+            setOnLongClickListener { viewHandler.deleteTodo(getRef(position).key) }
         }
     }
 

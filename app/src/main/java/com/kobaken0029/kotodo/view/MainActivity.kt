@@ -30,14 +30,20 @@ class MainActivity : AppCompatActivity(), MainViewHandler {
 
         inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        val database = FirebaseDatabase.getInstance()
-        database.setPersistenceEnabled(true)
-        firebaseReference = database.reference.child("messages")
-
-        adapter = TodoAdapter(this, this, firebaseReference)
-        binding.todoList.adapter = adapter
+        firebaseReference = FirebaseDatabase.getInstance().reference.child("messages")
 
         binding.handler = this
+    }
+
+    override fun onStart() {
+        super.onStart()
+        adapter = TodoAdapter(this, this, firebaseReference)
+        binding.todoList.adapter = adapter
+    }
+
+    override fun onStop() {
+        super.onStop()
+        adapter.cleanup()
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {

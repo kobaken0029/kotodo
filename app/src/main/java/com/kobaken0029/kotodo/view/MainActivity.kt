@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS
 import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import com.google.firebase.database.*
 import com.kobaken0029.kotodo.R
 import com.kobaken0029.kotodo.databinding.ActivityMainBinding
@@ -37,8 +38,8 @@ class MainActivity : AppCompatActivity(), MainViewHandler {
 
     override fun onStart() {
         super.onStart()
-        adapter = TodoAdapter(this, this, firebaseReference)
-        binding.todoList.adapter = adapter
+        binding.todoList.adapter = TodoAdapter(this, this, firebaseReference)
+                .apply { adapter = this }
     }
 
     override fun onStop() {
@@ -47,8 +48,10 @@ class MainActivity : AppCompatActivity(), MainViewHandler {
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, HIDE_NOT_ALWAYS)
-        binding.root.requestFocus()
+        binding.root.run {
+            inputMethodManager.hideSoftInputFromWindow(windowToken, HIDE_NOT_ALWAYS)
+            requestFocus()
+        }
         return super.dispatchTouchEvent(ev)
     }
 
@@ -57,10 +60,10 @@ class MainActivity : AppCompatActivity(), MainViewHandler {
         if (!content.isBlank()) {
             val todo = Todo(content, false, now(), now())
             adapter.add(todo)
-            Toast.makeText(applicationContext, "${todo.content}を追加しました", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "${todo.content}を追加しました", LENGTH_SHORT).show()
             binding.todoEdit.setText("")
         } else {
-            Toast.makeText(applicationContext, "入力してください", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "入力してください", LENGTH_SHORT).show()
         }
     }
 
@@ -70,7 +73,7 @@ class MainActivity : AppCompatActivity(), MainViewHandler {
                 ?.setMessage("本当に削除しても良いですか？")
                 ?.setPositiveButton(android.R.string.ok, { dialog, _ ->
                     adapter.remove(key)
-                    Toast.makeText(applicationContext, "削除しました", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "削除しました", LENGTH_SHORT).show()
                     dialog.dismiss()
                 })
                 ?.setNeutralButton(android.R.string.cancel, { dialog, _ ->

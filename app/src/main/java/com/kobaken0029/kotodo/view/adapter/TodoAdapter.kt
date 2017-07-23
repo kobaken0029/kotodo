@@ -16,15 +16,13 @@ class TodoAdapter(context: Activity, val viewHandler: MainViewHandler, val refer
     : FirebaseListAdapter<Todo>(context, Todo::class.java, R.layout.item_todo, reference) {
 
     override fun populateView(v: View, todo: Todo, position: Int) {
-        val contentView = v.findViewById(R.id.content) as TextView
-        contentView.text = todo.content
-        val updatedAtView = v.findViewById(R.id.updated_at) as TextView
-        updatedAtView.text = todo.updatedAt
-        with(v.findViewById(R.id.done) as CheckBox) {
+        (v.findViewById(R.id.content) as TextView).text = todo.content
+        (v.findViewById(R.id.updated_at) as TextView).text = todo.updatedAt
+        (v.findViewById(R.id.done) as CheckBox).run {
             isChecked = todo.done
             setOnClickListener { done(todo, getRef(position).key) }
         }
-        with(v) {
+        v.run {
             setBackgroundColor(if (todo.done) Color.LTGRAY else Color.WHITE)
             setOnLongClickListener { viewHandler.deleteTodo(getRef(position).key) }
         }
@@ -35,9 +33,10 @@ class TodoAdapter(context: Activity, val viewHandler: MainViewHandler, val refer
     }
 
     fun done(todo: Todo, targetKey: String) {
-        val target = reference.child(targetKey)
-        target.child("done").setValue(!todo.done)
-        target.child("updatedAt").setValue(now())
+        reference.child(targetKey).run {
+            child("done").setValue(!todo.done)
+            child("updatedAt").setValue(now())
+        }
     }
 
     fun remove(targetKey: String): Boolean {

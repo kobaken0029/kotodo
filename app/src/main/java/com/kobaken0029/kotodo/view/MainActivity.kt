@@ -1,9 +1,13 @@
 package com.kobaken0029.kotodo.view
 
 import android.app.AlertDialog
+import android.content.Context
 import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
+import android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS
 import android.widget.Toast
 import com.google.firebase.database.*
 import com.kobaken0029.kotodo.R
@@ -15,6 +19,7 @@ import com.kobaken0029.kotodo.view.adapter.TodoAdapter
 class MainActivity : AppCompatActivity(), MainViewHandler {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var inputMethodManager: InputMethodManager
     private lateinit var adapter: TodoAdapter
 
     private lateinit var firebaseReference: DatabaseReference
@@ -23,12 +28,20 @@ class MainActivity : AppCompatActivity(), MainViewHandler {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
         firebaseReference = FirebaseDatabase.getInstance().reference.child("messages")
 
         adapter = TodoAdapter(this, this, firebaseReference)
         binding.todoList.adapter = adapter
 
         binding.handler = this
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, HIDE_NOT_ALWAYS)
+        binding.root.requestFocus()
+        return super.dispatchTouchEvent(ev)
     }
 
     override fun createTodo() {

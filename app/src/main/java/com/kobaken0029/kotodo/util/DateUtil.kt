@@ -1,10 +1,8 @@
 package com.kobaken0029.kotodo.util
 
 import org.threeten.bp.LocalDateTime
-import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.DateTimeFormatter.ofPattern
 
 object DateUtil {
-    fun now(): String {
-        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss"))
-    }
+    fun now(): String = LocalDateTime.now().format(ofPattern("yyyy/MM/dd hh:mm:ss"))
 }
